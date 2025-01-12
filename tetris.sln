@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisApp", "TetrisApp\TetrisApp.csproj", "{513C11BF-F46C-4303-9FF9-A245B076B500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisLib", "TetrisLib\TetrisLib.csproj", "{59E2AAB5-24ED-4B8E-877F-9886089907BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisLib2", "TetrisLib2\TetrisLib2.csproj", "{B1E73CB0-BD91-429B-8900-3B384507FFBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisTests", "TetrisTests\TetrisTests.csproj", "{C58300BC-872A-4C0A-96D9-EB5E305C15FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{513C11BF-F46C-4303-9FF9-A245B076B500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513C11BF-F46C-4303-9FF9-A245B076B500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513C11BF-F46C-4303-9FF9-A245B076B500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513C11BF-F46C-4303-9FF9-A245B076B500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E2AAB5-24ED-4B8E-877F-9886089907BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E2AAB5-24ED-4B8E-877F-9886089907BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E2AAB5-24ED-4B8E-877F-9886089907BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E2AAB5-24ED-4B8E-877F-9886089907BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E73CB0-BD91-429B-8900-3B384507FFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E73CB0-BD91-429B-8900-3B384507FFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E73CB0-BD91-429B-8900-3B384507FFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E73CB0-BD91-429B-8900-3B384507FFBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C58300BC-872A-4C0A-96D9-EB5E305C15FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C58300BC-872A-4C0A-96D9-EB5E305C15FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C58300BC-872A-4C0A-96D9-EB5E305C15FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C58300BC-872A-4C0A-96D9-EB5E305C15FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

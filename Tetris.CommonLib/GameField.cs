@@ -29,9 +29,7 @@ public class GameField : IUserInterfaceHandler
 
     public bool CanSpawn(IShape block)
     {
-        // true if field has enough space
-
-        return true;
+        return CurrentStaticState.CanSpawn(block);
     }
 
     private bool CanMoveLeft => CurrentStaticState.CanMove(CurrentShape, PositionSpan.Left);

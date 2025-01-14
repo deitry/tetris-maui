@@ -10,4 +10,6 @@ public interface IGameState
     void Merge(PositionedShape? currentShape);
 
     int ClearCompleteRows();
+
+    bool CanSpawn(IShape block);
 }

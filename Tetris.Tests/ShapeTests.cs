@@ -21,4 +21,18 @@ public class ShapeTests
 
         Assert.That(line1, Is.Not.EqualTo(line2));
     }
+
+    [Test]
+    public void Test003_RotateLine()
+    {
+        var line = Shapes.Line;
+        var rotatedLine = new Shape("""
+                                    *
+                                    *
+                                    *
+                                    *
+                                    """);
+
+        Assert.That(line.RotatedClockwise, Is.EqualTo(rotatedLine));
+    }
 }

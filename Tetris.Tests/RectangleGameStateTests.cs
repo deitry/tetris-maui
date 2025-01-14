@@ -58,4 +58,26 @@ public class RectangleGameStateTests
 
         Assert.That(state2, Is.EqualTo(state1));
     }
+
+    [Test]
+    public void Test004_CanMoveLine()
+    {
+        var stateSchema = """
+                           --------
+                           --------
+                           --------
+                           --------
+                           """;
+
+        var state = new RectangleGameState(stateSchema);
+
+        var shape = new PositionedShape(Shapes.Line, new(0, state.Top));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(state.CanMove(shape, PositionSpan.Right), Is.True);
+            Assert.That(state.CanMove(shape, PositionSpan.Left), Is.False);
+            Assert.That(state.CanMove(shape, PositionSpan.Down), Is.True);
+        });
+    }
 }

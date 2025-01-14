@@ -2,13 +2,18 @@
 
 public class RectangleGameState : IGameState, IEquatable<RectangleGameState>
 {
-    private bool[][] _grid;
+    public int Top => _grid.Length - 1;
+
+    private readonly bool[][] _grid;
 
     public RectangleGameState(int width, int height)
     {
         _grid = Enumerable.Repeat(new bool[width], height).ToArray();
     }
 
+    /// <summary>
+    /// Create from visual representation
+    /// </summary>
     public RectangleGameState(string grid)
     {
         throw new NotImplementedException();
@@ -18,17 +23,6 @@ public class RectangleGameState : IGameState, IEquatable<RectangleGameState>
     {
         if (currentShape is null)
             return false;
-
-        throw new NotImplementedException();
-    }
-
-    public bool CanMoveDown(PositionedShape? currentShape, int offset)
-    {
-        if (currentShape is null)
-            return false;
-
-        if (offset < 0)
-            throw new ArgumentException("Expected non-zero value", nameof(offset));
 
         throw new NotImplementedException();
     }

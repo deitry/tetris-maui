@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisApp", "TetrisApp\TetrisApp.csproj", "{513C11BF-F46C-4303-9FF9-A245B076B500}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris.App", "Tetris.App\Tetris.App.csproj", "{513C11BF-F46C-4303-9FF9-A245B076B500}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisLib", "TetrisLib\TetrisLib.csproj", "{59E2AAB5-24ED-4B8E-877F-9886089907BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris.GuiLib", "Tetris.GuiLib\Tetris.GuiLib.csproj", "{59E2AAB5-24ED-4B8E-877F-9886089907BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisLib2", "TetrisLib2\TetrisLib2.csproj", "{B1E73CB0-BD91-429B-8900-3B384507FFBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris.CommonLib", "Tetris.CommonLib\Tetris.CommonLib.csproj", "{B1E73CB0-BD91-429B-8900-3B384507FFBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrisTests", "TetrisTests\TetrisTests.csproj", "{C58300BC-872A-4C0A-96D9-EB5E305C15FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris.Tests", "Tetris.Tests\Tetris.Tests.csproj", "{C58300BC-872A-4C0A-96D9-EB5E305C15FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,53 +1,77 @@
-﻿namespace Tetris.CommonLib;
+﻿using System.Text;
+
+namespace Tetris.CommonLib;
 
 public class Shape : IShape, IEquatable<Shape>
 {
-    private readonly bool[][] _shape;
+    public const int MaxSize = 4;
+
+    private static bool[,] EmptyGrid => new bool[MaxSize, MaxSize];
+
+    private readonly bool[,] _shape;
 
     private static readonly char[] AllowedSymbols = ['\n', ' ', '*'];
 
     /// <remarks>
     /// Internal so no one outside cannot define their own shape
     /// </remarks>
-    internal Shape(string shape)
+    internal Shape(string shapeString)
     {
-        var normalized = shape.ReplaceLineEndings("\n");
+        var normalized = shapeString.ReplaceLineEndings("\n");
 
         if (normalized.Any(c => ! AllowedSymbols.Contains(c)))
             throw new ArgumentException("Invalid symbols in shape description");
 
         var basis = normalized.Split("\n").ToList();
+        var maxLength = basis.Max(s => s.Length);
 
-        if (basis.Count > 4 || basis.Any(s => s.Length > 4))
+        if (basis.Count > 4 || maxLength > 4)
             throw new NotSupportedException("Shape is too big for current implementation");
 
-        _shape = new bool[basis.Count][];
-
+        _shape = EmptyGrid;
         for (var i = 0; i < basis.Count; i++)
         {
             var line = basis[i];
-            _shape[i] = new bool[line.Length];
-
             for (var j = 0; j < line.Length; j++)
             {
-                _shape[i][j] = line[j] == '*';
+                _shape[i, j] = line[j] == '*';
             }
         }
     }
 
-    public IShape RotatedClockwise => throw new NotImplementedException();
+    private Shape(bool[,] shape)
+    {
+        _shape = shape;
+    }
+
+    public IShape RotatedClockwise
+    {
+        get
+        {
+            var newShape = EmptyGrid;
+            for (var i = 0; i < MaxSize; i++)
+            {
+                for (var j = 0; j < MaxSize; j++)
+                {
+                    newShape[j, i] = _shape[i, j];
+                }
+            }
+
+            return new Shape(newShape);
+        }
+    }
 
     public bool Equals(Shape? other)
     {
         if (other is null) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        if (_shape.Length != other._shape.Length)
-            return false;
+        // assuming that shapes are always 4x4
 
-        for (var i = 0; i < _shape.Length; i++)
+        for (var i = 0; i < MaxSize; i++)
+        for (var j = 0; j < MaxSize; j++)
         {
-            if (! _shape[i].SequenceEqual(other._shape[i]))
+            if (_shape[i, j] != other._shape[i, j])
                 return false;
         }
 
@@ -65,5 +89,21 @@ public class Shape : IShape, IEquatable<Shape>
     public override int GetHashCode()
     {
         return HashCode.Combine(_shape, AllowedSymbols);
+    }
+
+    public override string ToString()
+    {
+        // return string.Join('\n', _shape.Select(s => new string(s.Select(c => c ? '*' : ' ').ToArray())));
+        var sb = new StringBuilder();
+        for (var i = 0; i < MaxSize; i++)
+        {
+            for (var j = 0; j < MaxSize; j++)
+            {
+                sb.Append(_shape[i, j] ? '*' : ' ');
+            }
+            sb.AppendLine();
+        }
+
+        return sb.ToString();
     }
 }

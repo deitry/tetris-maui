@@ -35,4 +35,16 @@ public class ShapeTests
 
         Assert.That(line.RotatedClockwise, Is.EqualTo(rotatedLine));
     }
+
+    [Test]
+    public void Test004_RotateLine360()
+    {
+        var line = Shapes.Line;
+        var rotated90 = line.RotatedClockwise;
+        var rotated180 = rotated90.RotatedClockwise;
+        var rotated270 = rotated180.RotatedClockwise;
+        var rotated360 = rotated270.RotatedClockwise;
+
+        Assert.That(rotated360, Is.EqualTo(line));
+    }
 }

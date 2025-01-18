@@ -7,12 +7,12 @@ public class RectangleGameStateTests
     [Test]
     public void Test001_LineCanBeSpawnedInEmptyState()
     {
-        var stateSchema = """
-                          --------
-                          --------
-                          --------
-                          --------
-                          """;
+        const string stateSchema = """
+                                   --------
+                                   --------
+                                   --------
+                                   --------
+                                   """;
         var state = new RectangleGameState(stateSchema);
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.True);
@@ -21,12 +21,12 @@ public class RectangleGameStateTests
     [Test]
     public void Test002_LineCanNotBeSpawnedInFullState()
     {
-        var stateSchema = """
-                          ********
-                          ********
-                          ********
-                          ********
-                          """;
+        const string stateSchema = """
+                                   ********
+                                   ********
+                                   ********
+                                   ********
+                                   """;
         var state = new RectangleGameState(stateSchema);
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.False);
@@ -35,19 +35,19 @@ public class RectangleGameStateTests
     [Test]
     public void Test003_LineIsMergedIntoState()
     {
-        var state1Schema = """
-                           --------
-                           --------
-                           --------
-                           --------
-                           """;
+        const string state1Schema = """
+                                    --------
+                                    --------
+                                    --------
+                                    --------
+                                    """;
 
-        var state2Schema = """
-                           --------
-                           --------
-                           --------
-                           ****----
-                           """;
+        const string state2Schema = """
+                                    --------
+                                    --------
+                                    --------
+                                    ****----
+                                    """;
 
         var state1 = new RectangleGameState(state1Schema);
         var state2 = new RectangleGameState(state2Schema);
@@ -62,12 +62,12 @@ public class RectangleGameStateTests
     [Test]
     public void Test004_CanMoveLine()
     {
-        var stateSchema = """
-                           --------
-                           --------
-                           --------
-                           --------
-                           """;
+        const string stateSchema = """
+                                   --------
+                                   --------
+                                   --------
+                                   --------
+                                   """;
 
         var state = new RectangleGameState(stateSchema);
 

@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="Tetris.App\Tetris.App.csproj" Type="Classic C#" />
+  <Project Path="Tetris.CommonLib\Tetris.CommonLib.csproj" Type="Classic C#" />
+  <Project Path="Tetris.GuiLib\Tetris.GuiLib.csproj" Type="Classic C#" />
+  <Project Path="Tetris.Tests\Tetris.Tests.csproj" Type="Classic C#" />
+</Solution>

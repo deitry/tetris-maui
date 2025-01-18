@@ -1,0 +1,9 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tetris.App" type="UwpProject" factoryName="UWP">
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/Tetris.App/Tetris.App.csproj" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>

@@ -48,7 +48,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
 
         for (var i = 0; i < width; i++)
         {
-            for (var j = 0; j < height && i > lines[j].Length; j++)
+            for (var j = 0; j < height && i < lines[j].Length; j++)
             {
                 _grid[i, j] = lines[j][i] == OccupiedCell;
             }
@@ -126,8 +126,11 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         {
             for (var y = 0; y < shape.Height; y++)
             {
+                var shapeCell = shape[x, y];
+                var stateCell = _grid[x0 + x, y0 - y];
+
                 // minus since distance is measured from top
-                if (shape[x, y] && _grid[x0 + x, y0 - y])
+                if (shapeCell && stateCell)
                 {
                     return false;
                 }

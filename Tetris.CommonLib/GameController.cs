@@ -7,7 +7,13 @@ public class GameController
 {
     private static readonly IReadOnlyList<IShape> AvailableShapes = Shapes.Tetraminoes;
 
-    public event Action<long>? GameOver;
+    public event Action<bool[,]>? GameStateUpdated;
+
+    public event Action<PositionedShape>? CurrentShapeUpdated;
+
+    public event Action<long>? ScoreChanged;
+
+    public event Action? GameOver;
 
     public long Score { get; private set; }
 
@@ -24,9 +30,9 @@ public class GameController
     /// <summary>
     /// Each successfull row will
     /// </summary>
-    public double SpeedMultiplier { get; set; } = 0.9999;
+    public const double SpeedMultiplier = 0.9999;
 
-    public GameField GameField { get; set; } = new();
+    public GameField GameField { get; } = new(width: 10, height: 20);
 
     public GameController(IUserInterface user)
     {
@@ -35,6 +41,30 @@ public class GameController
         user.MoveRight += GameField.OnMoveRight;
         user.MoveDown += GameField.OnMoveDown;
         user.RotateClockwise += GameField.OnRotateClockwise;
+
+        GameField.StateUpdated += GameStateUpdated;
+
+        GameField.RowsCleared += OnRowsCleared;
+    }
+
+    private void OnRowsCleared(int rowsCleared)
+    {
+        var reward = rowsCleared switch
+        {
+            1 => 100,
+            2 => 300,
+            3 => 800,
+            >= 4 => 2000,
+            _ => 0,
+        };
+
+        if (reward > 0)
+        {
+            Score += reward;
+            TickPeriod *= SpeedMultiplier;
+        }
+
+        ScoreChanged?.Invoke(Score);
     }
 
     public async Task GameCycle()
@@ -47,7 +77,7 @@ public class GameController
             {
                 if (!GameField.CanSpawn(NextBlock))
                 {
-                    GameOver?.Invoke(Score);
+                    GameOver?.Invoke();
                     return;
                 }
 
@@ -56,30 +86,7 @@ public class GameController
 
             await Task.Delay(TickPeriod);
 
-            var result = GameField.StateBasedActions();
-
-            var reward = result.RowsCleared switch
-            {
-                1 => 100,
-                2 => 300,
-                3 => 800,
-                >= 4 => 2000,
-                _ => 0,
-            };
-
-            if (reward > 0)
-            {
-                Score += reward;
-                TickPeriod *= SpeedMultiplier;
-            }
+            GameField.StateBasedActions();
         }
     }
-}
-
-public interface IUserInterface
-{
-    event Action MoveLeft;
-    event Action MoveRight;
-    event Action MoveDown;
-    event Action RotateClockwise;
 }

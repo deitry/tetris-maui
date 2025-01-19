@@ -22,11 +22,25 @@ public record PositionSpan(int dX = 0, int dY = 0)
 
 public record PositionedShape(IShape Shape, Position Position)
 {
+    private Position _position = Position;
+
+    public event Action<PositionedShape>? Updated;
+
     public void RotateClockwise()
     {
         Shape = Shape.RotatedClockwise;
     }
 
-    public Position Position { get; set; } = Position;
+    public Position Position
+    {
+        get => _position;
+        set
+        {
+            _position = value;
+
+            Updated?.Invoke(this);
+        }
+    }
+
     public IShape Shape { get; private set; } = Shape;
 }

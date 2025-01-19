@@ -2,7 +2,7 @@
 
 namespace TetrisTests;
 
-public class RectangleGameStateTests
+public class RectangleGame2dStateTests
 {
     [Test]
     public void Test001_LineCanBeSpawnedInEmptyState()
@@ -13,7 +13,7 @@ public class RectangleGameStateTests
                                    --------
                                    --------
                                    """;
-        var state = new RectangleGameState(stateSchema);
+        var state = new RectangleGame2dState(stateSchema);
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.True);
     }
@@ -27,7 +27,7 @@ public class RectangleGameStateTests
                                    ********
                                    ********
                                    """;
-        var state = new RectangleGameState(stateSchema);
+        var state = new RectangleGame2dState(stateSchema);
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.False);
     }
@@ -49,8 +49,8 @@ public class RectangleGameStateTests
                                     ****----
                                     """;
 
-        var state1 = new RectangleGameState(state1Schema);
-        var state2 = new RectangleGameState(state2Schema);
+        var state1 = new RectangleGame2dState(state1Schema);
+        var state2 = new RectangleGame2dState(state2Schema);
 
         var shape = new PositionedShape(Shapes.Line, new(0, 0));
 
@@ -69,9 +69,9 @@ public class RectangleGameStateTests
                                    --------
                                    """;
 
-        var state = new RectangleGameState(stateSchema);
+        var state = new RectangleGame2dState(stateSchema);
 
-        var shape = new PositionedShape(Shapes.Line, new(0, state.Top));
+        var shape = new PositionedShape(Shapes.Line, new(0, state.TopIndex));
 
         Assert.Multiple(() =>
         {
@@ -79,5 +79,55 @@ public class RectangleGameStateTests
             Assert.That(state.CanMove(shape, PositionSpan.Left), Is.False);
             Assert.That(state.CanMove(shape, PositionSpan.Down), Is.True);
         });
+    }
+
+    [Test]
+    public void SingleLineIsCleared()
+    {
+        const string state1Schema = """
+                                   --------
+                                   --------
+                                   --------
+                                   ********
+                                   """;
+
+        const string state2Schema = """
+                                   --------
+                                   --------
+                                   --------
+                                   --------
+                                   """;
+
+        var state1 = new RectangleGame2dState(state1Schema);
+        var state2 = new RectangleGame2dState(state2Schema);
+
+        state1.ClearCompleteRows();
+
+        Assert.That(state1, Is.EqualTo(state2));
+    }
+
+    [Test]
+    public void SingleLineIsClearedAndSomethingRemained()
+    {
+        const string state1Schema = """
+                                   --------
+                                   --*-----
+                                   -**-----
+                                   ********
+                                   """;
+
+        const string state2Schema = """
+                                   --------
+                                   --------
+                                   --*-----
+                                   -**-----
+                                   """;
+
+        var state1 = new RectangleGame2dState(state1Schema);
+        var state2 = new RectangleGame2dState(state2Schema);
+
+        state1.ClearCompleteRows();
+
+        Assert.That(state1, Is.EqualTo(state2));
     }
 }

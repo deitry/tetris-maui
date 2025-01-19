@@ -44,6 +44,9 @@ public class Shape : IShape, IEquatable<Shape>
         _shape = shape;
     }
 
+    public int Width => _shape.GetLength(0);
+    public int Height => _shape.GetLength(1);
+
     public IShape RotatedClockwise
     {
         get
@@ -60,6 +63,8 @@ public class Shape : IShape, IEquatable<Shape>
             return new Shape(newShape);
         }
     }
+
+    public bool this[int x, int y] => _shape[x, y];
 
     public bool Equals(Shape? other)
     {

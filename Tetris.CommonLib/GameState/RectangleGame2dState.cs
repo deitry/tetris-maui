@@ -1,4 +1,6 @@
-﻿namespace Tetris.CommonLib;
+﻿using System.Diagnostics;
+
+namespace Tetris.CommonLib;
 
 public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dState>
 {
@@ -37,22 +39,10 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     /// </summary>
     public RectangleGame2dState(string grid)
     {
-        var lines = grid.Split("\n");
-        var width = lines.Max(l => l.Length);
-        var height = lines.Length;
+        _grid = grid.To2dBoolArray();
 
-        if (width < 4 || height < 4)
+        if (_grid.GetLength(0) < 4 || _grid.GetLength(1) < 4)
             throw new ArgumentException("Grid is too small!", nameof(grid));
-
-        _grid = new bool[width, height];
-
-        for (var i = 0; i < width; i++)
-        {
-            for (var j = 0; j < height && i < lines[j].Length; j++)
-            {
-                _grid[i, j] = lines[j][i] == OccupiedCell;
-            }
-        }
     }
 
     public bool CanMove(PositionedShape? currentShape, PositionSpan offset)
@@ -68,7 +58,24 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         if (currentShape is null)
             return;
 
-        throw new NotImplementedException();
+        var x0 = currentShape.Position.X;
+        var y0 = currentShape.Position.Y;
+
+        for (var x = 0; x < currentShape.Shape.Width; x++)
+        {
+            for (var y = 0; y < currentShape.Shape.Height; y++)
+            {
+                var shapeCell = currentShape.Shape[x, y];
+
+                Debug.Assert(!_grid[x0 + x, y0 - y], "cell is already occupied");
+
+                // minus since distance is measured from top
+                if (shapeCell)
+                {
+                    _grid[x0 + x, y0 - y] = true;
+                }
+            }
+        }
     }
 
     bool IsRowComplete(int row)
@@ -87,12 +94,12 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     public void ClearCompleteRows()
     {
         var rowsCleared = 0;
-        var row = Height - 1;
-        while (row >= 0)
+        var row = 0;
+        while (row < Height)
         {
             if (!IsRowComplete(row))
             {
-                row--;
+                row++;
                 continue;
             }
 
@@ -107,11 +114,12 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
 
     private void RemoveRow(int row)
     {
-        for (var rowAbove = row - 1; rowAbove >= 0; rowAbove--)
+        var height = _grid.GetLength(1);
+        for (var currentRow = row; currentRow < _grid.Height(); currentRow--)
         {
             for (var col = 0; col < Width; col++)
             {
-                _grid[col, rowAbove] = rowAbove - 1 >= 0 && _grid[col, rowAbove - 1];
+                _grid[col, currentRow] = currentRow + 1 <= height && _grid[col, currentRow];
             }
         }
     }
@@ -169,5 +177,10 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     public override int GetHashCode()
     {
         return _grid.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return _grid.AsString(emptyPlaceholder: '-');
     }
 }

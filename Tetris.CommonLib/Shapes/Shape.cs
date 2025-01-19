@@ -44,8 +44,8 @@ public class Shape : IShape, IEquatable<Shape>
         _shape = shape;
     }
 
-    public int Width => _shape.GetLength(0);
-    public int Height => _shape.GetLength(1);
+    public int Width => _shape.Width();
+    public int Height => _shape.Height();
 
     public IShape RotatedClockwise
     {
@@ -98,17 +98,6 @@ public class Shape : IShape, IEquatable<Shape>
 
     public override string ToString()
     {
-        // return string.Join('\n', _shape.Select(s => new string(s.Select(c => c ? '*' : ' ').ToArray())));
-        var sb = new StringBuilder();
-        for (var i = 0; i < MaxSize; i++)
-        {
-            for (var j = 0; j < MaxSize; j++)
-            {
-                sb.Append(_shape[i, j] ? '*' : ' ');
-            }
-            sb.AppendLine();
-        }
-
-        return sb.ToString();
+        return _shape.AsString();
     }
 }

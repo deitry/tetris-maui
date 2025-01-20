@@ -5,52 +5,32 @@ namespace TetrisTests;
 public class RectangleGame2dStateTests
 {
     [Test]
-    public void Test001_LineCanBeSpawnedInEmptyState()
+    public void LineCanBeSpawnedInEmptyState()
     {
-        const string stateSchema = """
-                                   --------
-                                   --------
-                                   --------
-                                   --------
-                                   """;
-        var state = new RectangleGame2dState(stateSchema);
+        var state = StateManager.Empty9x4;
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.True);
     }
 
     [Test]
-    public void Test002_LineCanNotBeSpawnedInFullState()
+    public void LineCanNotBeSpawnedInFullState()
     {
-        const string stateSchema = """
-                                   ********
-                                   ********
-                                   ********
-                                   ********
-                                   """;
-        var state = new RectangleGame2dState(stateSchema);
+        var state = StateManager.Full9x4;
 
         Assert.That(state.CanSpawn(Shapes.Line), Is.False);
     }
 
     [Test]
-    public void Test003_LineIsMergedIntoState()
+    public void LineIsMergedIntoState()
     {
-        const string state1Schema = """
-                                    --------
-                                    --------
-                                    --------
-                                    --------
-                                    """;
+        var state1 = StateManager.Empty9x4;
 
-        const string state2Schema = """
-                                    --------
-                                    --------
-                                    --------
-                                    ****----
-                                    """;
-
-        var state1 = new RectangleGame2dState(state1Schema);
-        var state2 = new RectangleGame2dState(state2Schema);
+        var state2 = new RectangleGame2dState("""
+                                              --------
+                                              --------
+                                              --------
+                                              ****----
+                                              """);
 
         var shape = new PositionedShape(Shapes.Line, new(X: 0, Y: 3));
 
@@ -60,18 +40,11 @@ public class RectangleGame2dStateTests
     }
 
     [Test]
-    public void Test004_CanMoveLine()
+    public void CanMoveLine_LeftTop()
     {
-        const string stateSchema = """
-                                   --------
-                                   --------
-                                   --------
-                                   --------
-                                   """;
+        var state = StateManager.Empty9x4;
 
-        var state = new RectangleGame2dState(stateSchema);
-
-        var shape = new PositionedShape(Shapes.Line, new(0, RectangleGame2dState.TopIndex));
+        var shape = new PositionedShape(Shapes.Line, new(state.LeftIndex, state.TopIndex));
 
         Assert.Multiple(() =>
         {
@@ -79,6 +52,47 @@ public class RectangleGame2dStateTests
             Assert.That(state.CanMove(shape, PositionSpan.Left), Is.False);
             Assert.That(state.CanMove(shape, PositionSpan.Down), Is.True);
         });
+    }
+
+    [Test]
+    public void CanMoveLine_LeftBottom()
+    {
+        var state = StateManager.Empty9x4;
+
+        var shape = new PositionedShape(Shapes.Line, new(state.LeftIndex, state.BottomIndex));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(state.CanMove(shape, PositionSpan.Right), Is.True);
+            Assert.That(state.CanMove(shape, PositionSpan.Left), Is.False);
+            Assert.That(state.CanMove(shape, PositionSpan.Down), Is.False);
+        });
+    }
+
+    [Test]
+    public void CanMoveLine_RightBottom()
+    {
+        var state = StateManager.Empty9x4;
+
+        var line = Shapes.Line;
+        var shape = new PositionedShape(line, new(state.Width - line.Width, state.BottomIndex));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(state.CanMove(shape, PositionSpan.Right), Is.False);
+            Assert.That(state.CanMove(shape, PositionSpan.Left), Is.True);
+            Assert.That(state.CanMove(shape, PositionSpan.Down), Is.False);
+        });
+    }
+
+    [Test]
+    public void CanRotateLine()
+    {
+        var state = StateManager.Empty9x4;
+        var line = Shapes.Line;
+        var shape = new PositionedShape(line, new(state.LeftIndex, state.TopIndex));
+
+        Assert.That(state.CanMerge(shape.Shape.RotatedClockwise, shape.Position), Is.True);
     }
 
     [Test]

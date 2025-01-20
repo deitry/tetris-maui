@@ -16,7 +16,7 @@ public record PositionSpan(int dX = 0, int dY = 0)
 {
     public static readonly PositionSpan Zero = new ();
     public static readonly PositionSpan Left = new (dX: -1);
-    public static readonly PositionSpan Right = new (dY: 1);
+    public static readonly PositionSpan Right = new (dX: 1);
     public static readonly PositionSpan Down = new (dX: 0, dY: 1);
 }
 
@@ -30,6 +30,8 @@ public record PositionedShape(IShape Shape, Position Position)
     {
         Shape = Shape.RotatedClockwise;
     }
+
+    public PositionedShape Rotated => new (Shape.RotatedClockwise, Position);
 
     public Position Position
     {

@@ -18,9 +18,9 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     /// <summary>
     /// Index of most top cell
     /// </summary>
-    public const int TopIndex = 0;
+    public int TopIndex => 0;
 
-    public const int LeftIndex = 0;
+    public int LeftIndex => 0;
 
     public int RightIndex => _grid.GetLength(0) - 1;
 
@@ -138,15 +138,15 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
 
     public bool CanSpawn(IShape shape) => CanMerge(shape, SpawnPoint);
 
-    private bool CanMerge(IShape shape, Position position)
+    public bool CanMerge(IShape shape, Position position)
     {
         var x0 = position.X;
         var y0 = position.Y;
 
-        if (x0 < LeftIndex || x0 > RightIndex)
+        if (x0 < LeftIndex || x0 + shape.Width - 1 > RightIndex)
             return false;
 
-        if (y0 < TopIndex || y0 > BottomIndex)
+        if (y0 < TopIndex || y0 + shape.Height - 1 > BottomIndex)
             return false;
 
         for (var x = 0; x < shape.Width; x++)

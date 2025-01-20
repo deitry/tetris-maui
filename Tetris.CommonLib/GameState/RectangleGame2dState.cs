@@ -20,6 +20,10 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     /// </summary>
     public const int TopIndex = 0;
 
+    public const int LeftIndex = 0;
+
+    public int RightIndex => _grid.GetLength(0) - 1;
+
     /// <summary>
     /// Index of most bottom cell
     /// </summary>
@@ -54,7 +58,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         if (currentShape is null)
             return false;
 
-        throw new NotImplementedException();
+        return CanMerge(currentShape.Shape, currentShape.Position + offset);
     }
 
     public void Merge(PositionedShape? currentShape)
@@ -132,11 +136,18 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         }
     }
 
-    public bool CanSpawn(IShape shape)
+    public bool CanSpawn(IShape shape) => CanMerge(shape, SpawnPoint);
+
+    internal bool CanMerge(IShape shape, Position position)
     {
-        // пытаемся совместить shape с текущим гридом и смотрим что получается
-        var x0 = SpawnPoint.X;
-        var y0 = SpawnPoint.Y;
+        var x0 = position.X;
+        var y0 = position.Y;
+
+        if (x0 < LeftIndex || x0 > RightIndex)
+            return false;
+
+        if (y0 < TopIndex || y0 > BottomIndex)
+            return false;
 
         for (var x = 0; x < shape.Width; x++)
         {
@@ -147,9 +158,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
 
                 // minus since distance is measured from top
                 if (shapeCell && stateCell)
-                {
                     return false;
-                }
             }
         }
 

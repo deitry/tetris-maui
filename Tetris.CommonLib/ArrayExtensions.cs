@@ -21,7 +21,7 @@ public static class ArrayExtensions
     /// <summary>
     /// Returns max width of occupied cells of array
     /// </summary>
-    public static int Width(this bool[,] array)
+    public static int OccupiedWidth(this bool[,] array)
     {
         var minCol = int.MaxValue;
         var maxCol = int.MinValue;
@@ -47,7 +47,7 @@ public static class ArrayExtensions
     /// <summary>
     /// Returns max width of occupied cells of array
     /// </summary>
-    public static int Height(this bool[,] array)
+    public static int OccupiedHeight(this bool[,] array)
     {
         var minRow = int.MaxValue;
         var maxRow = int.MinValue;

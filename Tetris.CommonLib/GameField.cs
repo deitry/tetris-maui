@@ -24,8 +24,8 @@ public class GameField : IUserInterfaceHandler
     public GameField(int width, int height)
     {
         CurrentStaticState = new RectangleGame2dState(width, height);
-        CurrentStaticState.RowsCleared += RowsCleared;
-        CurrentStaticState.StateUpdated += StateUpdated;
+        CurrentStaticState.RowsCleared += rows => RowsCleared?.Invoke(rows);
+        CurrentStaticState.StateUpdated += state => StateUpdated?.Invoke(state);
     }
 
     public void Spawn(IShape shape)
@@ -34,7 +34,7 @@ public class GameField : IUserInterfaceHandler
             throw new Exception("Shape is already spawned");
 
         CurrentShape = new (shape, Position: CurrentStaticState.SpawnPoint);
-        CurrentShape.Updated += CurrentShapeMoved;
+        CurrentShape.Updated += s => CurrentShapeMoved?.Invoke(s);
     }
 
     public bool CanSpawn(IShape block)
@@ -97,11 +97,18 @@ public class GameField : IUserInterfaceHandler
 
     public void StateBasedActions()
     {
-        if (CurrentShape != null && CheckIfMovementIsFinished())
+        if (CurrentShape != null)
         {
-            CurrentStaticState.Merge(CurrentShape);
-            CurrentShape.Updated -= CurrentShapeMoved;
-            CurrentShape = null;
+            if (CanMoveDown)
+            {
+                OnMoveDown();
+            }
+            else
+            {
+                CurrentStaticState.Merge(CurrentShape);
+                CurrentShape.Updated -= CurrentShapeMoved;
+                CurrentShape = null;
+            }
         }
 
         CurrentStaticState.ClearCompleteRows();

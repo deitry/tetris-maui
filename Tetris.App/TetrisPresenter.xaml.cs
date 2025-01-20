@@ -13,9 +13,9 @@ public partial class TetrisPresenter : ContentView
 {
     private const int CellSize = 20;
 
-    public bool[,] CurrentState { get; set; }
+    public bool[,]? CurrentState { get; set; }
 
-    public PositionedShape CurrentShape { get; set; }
+    public PositionedShape? CurrentShape { get; set; }
 
     private GameController _gameController;
     private CellView[,] _cells;
@@ -86,18 +86,24 @@ public partial class TetrisPresenter : ContentView
 
     private void Refresh()
     {
+        if (CurrentState is null)
+            return;
+
         // draw state and current shape
 
-        for (var row = 0; row < CurrentState.Height(); row++)
+        for (var row = 0; row < CurrentState.GetLength(1); row++)
         {
-            for (var col = 0; col < CurrentState.Width(); col++)
+            for (var col = 0; col < CurrentState.GetLength(0); col++)
             {
                 _cells[col, row].State = CurrentState[col, row] ? CellState.Static : CellState.Empty;
 
-                if (CurrentShape.Position.X + col >= 0 && CurrentShape.Position.X + col < CurrentState.Width() &&
-                    CurrentShape.Position.Y + row >= 0 && CurrentShape.Position.Y + row < CurrentState.Height())
+                if (CurrentShape != null)
                 {
-                    _cells[CurrentShape.Position.X + col, CurrentShape.Position.Y + row].State = CellState.Moving;
+                    if (CurrentShape.Position.X + col >= 0 && CurrentShape.Position.X + col < CurrentState.GetLength(0) &&
+                        CurrentShape.Position.Y + row >= 0 && CurrentShape.Position.Y + row < CurrentState.GetLength(1))
+                    {
+                        _cells[CurrentShape.Position.X + col, CurrentShape.Position.Y + row].State = CellState.Moving;
+                    }
                 }
             }
         }

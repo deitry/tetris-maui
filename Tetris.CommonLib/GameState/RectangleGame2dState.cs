@@ -112,12 +112,13 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     public void ClearCompleteRows()
     {
         var rowsCleared = 0;
-        var row = 0;
-        while (row < Height)
+        var row = BottomIndex;
+
+        while (row >= TopIndex)
         {
             if (!IsRowComplete(row))
             {
-                row++;
+                row--;
                 continue;
             }
 
@@ -126,14 +127,17 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
             rowsCleared++;
         }
 
-        StateUpdated?.Invoke(_grid.DeepClone());
-        RowsCleared?.Invoke(rowsCleared);
+        if (rowsCleared > 0)
+        {
+            StateUpdated?.Invoke(_grid.DeepClone());
+            RowsCleared?.Invoke(rowsCleared);
+        }
     }
 
     internal void RemoveRow(int row)
     {
         // from bottom to top
-        for (var currentRow = BottomIndex; currentRow >= TopIndex; currentRow--)
+        for (var currentRow = row; currentRow >= TopIndex; currentRow--)
         {
             var nextRow = currentRow - 1;
             for (var col = 0; col < Width; col++)

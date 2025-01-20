@@ -22,7 +22,7 @@ public class ArrayExtensionsTests
     {
         var array = new bool[4, 5];
 
-        Assert.That(array.Width(), Is.EqualTo(0));
+        Assert.That(array.OccupiedWidth(), Is.EqualTo(0));
     }
 
     [Test]
@@ -33,8 +33,8 @@ public class ArrayExtensionsTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(array.Width(), Is.EqualTo(1));
-            Assert.That(array.Height(), Is.EqualTo(1));
+            Assert.That(array.OccupiedWidth(), Is.EqualTo(1));
+            Assert.That(array.OccupiedHeight(), Is.EqualTo(1));
         });
     }
 

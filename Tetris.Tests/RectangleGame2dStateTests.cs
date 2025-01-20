@@ -114,6 +114,24 @@ public class RectangleGame2dStateTests
     }
 
     [Test]
+    public void SingleRowNonBottomIsCleared()
+    {
+        const string state1Schema = """
+                                   --------
+                                   --------
+                                   ********
+                                   --------
+                                   """;
+
+        var state1 = new RectangleGame2dState(state1Schema);
+        var state2 = StateManager.Empty9x4;
+
+        state1.ClearCompleteRows();
+
+        Assert.That(state1, Is.EqualTo(state2));
+    }
+
+    [Test]
     public void SingleRowIsClearedAndSomethingRemained()
     {
         const string state1Schema = """
@@ -158,7 +176,7 @@ public class RectangleGame2dStateTests
         var state1 = new RectangleGame2dState(state1Schema);
         var state2 = new RectangleGame2dState(state2Schema);
 
-        state1.RemoveRow(0);
+        state1.RemoveRow(state1.BottomIndex);
 
         Assert.That(state1, Is.EqualTo(state2));
     }
@@ -174,8 +192,9 @@ public class RectangleGame2dStateTests
             Assert.That(state.CanMerge(l, new(0, 0)), Is.True);
             Assert.That(state.CanMerge(l, new(0, 2)), Is.True);
             Assert.That(state.CanMerge(l, new(1, 2)), Is.True);
+            Assert.That(state.CanMerge(l, new(3, 2)), Is.True);
 
-            Assert.That(state.CanMerge(l, new(2, 2)), Is.False);
+            Assert.That(state.CanMerge(l, new(6, 2)), Is.False);
             Assert.That(state.CanMerge(l, new(0, 3)), Is.False);
         });
     }

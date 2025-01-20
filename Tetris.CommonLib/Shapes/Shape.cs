@@ -40,8 +40,8 @@ public class Shape : IShape, IEquatable<Shape>
         _shape = shape;
     }
 
-    public int Width => _shape.Width();
-    public int Height => _shape.Height();
+    public int Width => _shape.OccupiedWidth();
+    public int Height => _shape.OccupiedHeight();
 
     public IShape RotatedClockwise
     {

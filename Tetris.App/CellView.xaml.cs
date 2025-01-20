@@ -27,12 +27,15 @@ public partial class CellView : ContentView
             _state = value;
             OnPropertyChanged();
 
-            BackgroundColor = _state switch
+            App.RunInUiContext(() =>
             {
-                CellState.Moving => Colors.Red,
-                CellState.Static => Colors.Gold,
-                _ => Colors.White,
-            };
+                BackgroundColor = _state switch
+                {
+                    CellState.Moving => Colors.Red,
+                    CellState.Static => Colors.Gold,
+                    _ => Colors.White,
+                };
+            });
         }
     }
 

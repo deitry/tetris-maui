@@ -13,7 +13,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     public int Width => _grid.GetLength(0);
     public int Height => _grid.GetLength(1);
 
-    public Position SpawnPoint => new(Width / 2, TopIndex);
+    public Position SpawnPoint => new((int)(Math.Ceiling(Width / 2f) - 2), TopIndex);
 
     /// <summary>
     /// Index of most top cell
@@ -69,6 +69,12 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         var x0 = currentShape.Position.X;
         var y0 = currentShape.Position.Y;
 
+        if (x0 + currentShape.Shape.Width - 1 > RightIndex)
+            throw new ArgumentException("Shape is out of bounds", nameof(currentShape));
+
+        if (y0 + currentShape.Shape.Height - 1 > BottomIndex)
+            throw new ArgumentException("Shape is out of bounds", nameof(currentShape));
+
         for (var x = 0; x < currentShape.Shape.Width; x++)
         {
             for (var y = 0; y < currentShape.Shape.Height; y++)
@@ -78,15 +84,16 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
                 var stateX = x0 + x;
                 var stateY = y0 + y;
 
-                Debug.Assert(!_grid[stateX, stateY], "cell is already occupied");
-
                 // minus since distance is measured from top
                 if (shapeCell)
                 {
+                    Debug.Assert(!_grid[stateX, stateY], "cell is already occupied");
                     _grid[stateX, stateY] = true;
                 }
             }
         }
+
+        StateUpdated?.Invoke(_grid);
     }
 
     bool IsRowComplete(int row)

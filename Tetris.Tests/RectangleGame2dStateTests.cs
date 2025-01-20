@@ -96,7 +96,7 @@ public class RectangleGame2dStateTests
     }
 
     [Test]
-    public void SingleLineIsCleared()
+    public void SingleRowIsCleared()
     {
         const string state1Schema = """
                                    --------
@@ -105,15 +105,8 @@ public class RectangleGame2dStateTests
                                    ********
                                    """;
 
-        const string state2Schema = """
-                                   --------
-                                   --------
-                                   --------
-                                   --------
-                                   """;
-
         var state1 = new RectangleGame2dState(state1Schema);
-        var state2 = new RectangleGame2dState(state2Schema);
+        var state2 = StateManager.Empty9x4;
 
         state1.ClearCompleteRows();
 
@@ -121,7 +114,7 @@ public class RectangleGame2dStateTests
     }
 
     [Test]
-    public void SingleLineIsClearedAndSomethingRemained()
+    public void SingleRowIsClearedAndSomethingRemained()
     {
         const string state1Schema = """
                                    --------
@@ -146,7 +139,7 @@ public class RectangleGame2dStateTests
     }
 
     [Test]
-    public void TestRemoveLine()
+    public void RowRemovesProperly()
     {
         const string state1Schema = """
                                     --------
@@ -168,5 +161,22 @@ public class RectangleGame2dStateTests
         state1.RemoveRow(0);
 
         Assert.That(state1, Is.EqualTo(state2));
+    }
+
+    [Test]
+    public void CanPlaceLShape()
+    {
+        var state = StateManager.Empty9x4;
+        var l = Shapes.L;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(state.CanMerge(l, new(0, 0)), Is.True);
+            Assert.That(state.CanMerge(l, new(0, 2)), Is.True);
+            Assert.That(state.CanMerge(l, new(1, 2)), Is.True);
+
+            Assert.That(state.CanMerge(l, new(2, 2)), Is.False);
+            Assert.That(state.CanMerge(l, new(0, 3)), Is.False);
+        });
     }
 }

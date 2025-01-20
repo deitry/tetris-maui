@@ -25,5 +25,7 @@ public interface IGame2dState
 
     void ClearCompleteRows();
 
+    Position SpawnPoint { get; }
+
     bool CanSpawn(IShape block);
 }

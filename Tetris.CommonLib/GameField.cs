@@ -33,7 +33,7 @@ public class GameField : IUserInterfaceHandler
         if (CurrentShape != null)
             throw new Exception("Shape is already spawned");
 
-        CurrentShape = new (shape, Position: new((int) Math.Ceiling(CurrentStaticState.Width / 2f), CurrentStaticState.Height - 1));
+        CurrentShape = new (shape, Position: CurrentStaticState.SpawnPoint);
         CurrentShape.Updated += CurrentShapeMoved;
     }
 
@@ -55,6 +55,8 @@ public class GameField : IUserInterfaceHandler
         if (CurrentShape != null && CanMoveLeft)
         {
             CurrentShape.Position += PositionSpan.Left;
+
+            CurrentShapeMoved?.Invoke(CurrentShape);
         }
     }
 
@@ -63,6 +65,8 @@ public class GameField : IUserInterfaceHandler
         if (CurrentShape != null && CanMoveRight)
         {
             CurrentShape.Position += PositionSpan.Right;
+
+            CurrentShapeMoved?.Invoke(CurrentShape);
         }
     }
 
@@ -71,6 +75,8 @@ public class GameField : IUserInterfaceHandler
         if (CurrentShape != null && CanMoveDown)
         {
             CurrentShape.Position += PositionSpan.Down;
+
+            CurrentShapeMoved?.Invoke(CurrentShape);
         }
     }
 
@@ -79,6 +85,8 @@ public class GameField : IUserInterfaceHandler
         if (CurrentShape != null && CanRotateClockwise)
         {
             CurrentShape.RotateClockwise();
+
+            CurrentShapeMoved?.Invoke(CurrentShape);
         }
     }
 

@@ -71,7 +71,7 @@ public class RectangleGame2dStateTests
 
         var state = new RectangleGame2dState(stateSchema);
 
-        var shape = new PositionedShape(Shapes.Line, new(0, state.TopIndex));
+        var shape = new PositionedShape(Shapes.Line, new(0, RectangleGame2dState.TopIndex));
 
         Assert.Multiple(() =>
         {
@@ -127,6 +127,31 @@ public class RectangleGame2dStateTests
         var state2 = new RectangleGame2dState(state2Schema);
 
         state1.ClearCompleteRows();
+
+        Assert.That(state1, Is.EqualTo(state2));
+    }
+
+    [Test]
+    public void TestRemoveLine()
+    {
+        const string state1Schema = """
+                                    --------
+                                    --*-----
+                                    -**-----
+                                    ***-----
+                                    """;
+
+        const string state2Schema = """
+                                    --------
+                                    --------
+                                    --*-----
+                                    -**-----
+                                    """;
+
+        var state1 = new RectangleGame2dState(state1Schema);
+        var state2 = new RectangleGame2dState(state2Schema);
+
+        state1.RemoveRow(0);
 
         Assert.That(state1, Is.EqualTo(state2));
     }

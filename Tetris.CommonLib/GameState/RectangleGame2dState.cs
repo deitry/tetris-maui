@@ -19,7 +19,12 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     /// <summary>
     /// Index of most top cell
     /// </summary>
-    public int TopIndex => _grid.GetLength(1) - 1;
+    public const int TopIndex = 0;
+
+    /// <summary>
+    /// Index of most bottom cell
+    /// </summary>
+    public int BottomIndex => _grid.GetLength(1) - 1;
 
     private readonly bool[,] _grid;
 
@@ -112,14 +117,15 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
         RowsCleared?.Invoke(rowsCleared);
     }
 
-    private void RemoveRow(int row)
+    internal void RemoveRow(int row)
     {
-        var height = _grid.GetLength(1);
-        for (var currentRow = row; currentRow < _grid.Height(); currentRow--)
+        // from bottom to top
+        for (var currentRow = BottomIndex; currentRow >= TopIndex; currentRow--)
         {
+            var nextRow = currentRow - 1;
             for (var col = 0; col < Width; col++)
             {
-                _grid[col, currentRow] = currentRow + 1 <= height && _grid[col, currentRow];
+                _grid[col, currentRow] = nextRow >= TopIndex && _grid[col, nextRow];
             }
         }
     }

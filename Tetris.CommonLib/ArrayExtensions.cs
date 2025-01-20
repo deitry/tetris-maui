@@ -106,6 +106,6 @@ public static class ArrayExtensions
             sb.AppendLine();
         }
 
-        return sb.ToString().TrimEnd(['\r', '\n']);
+        return sb.ToString().TrimEnd('\r', '\n');
     }
 }

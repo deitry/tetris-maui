@@ -1,8 +1,11 @@
-﻿namespace Tetris.CommonLib;
+﻿using JetBrains.Annotations;
+
+namespace Tetris.CommonLib;
 
 /// <summary>
 /// Collection of available shapes
 /// </summary>
+[PublicAPI]
 public static class Shapes
 {
     public static readonly IShape Line = new Shape("****");

@@ -2,9 +2,7 @@
 
 public class Shape : IShape, IEquatable<Shape>
 {
-    public const int MaxSize = 4;
-
-    private static bool[,] EmptyGrid => new bool[MaxSize, MaxSize];
+    private static bool[,] EmptyGrid => new bool[Constants.MaxSize, Constants.MaxSize];
 
     private readonly bool[,] _shape;
 
@@ -23,7 +21,7 @@ public class Shape : IShape, IEquatable<Shape>
         var basis = normalized.Split("\n").ToList();
         var maxLength = basis.Max(s => s.Length);
 
-        if (basis.Count > 4 || maxLength > 4)
+        if (basis.Count > Constants.MaxSize || maxLength > Constants.MaxSize)
             throw new NotSupportedException("Shape is too big for current implementation");
 
         _shape = EmptyGrid;
@@ -50,9 +48,9 @@ public class Shape : IShape, IEquatable<Shape>
         get
         {
             var newShape = EmptyGrid;
-            for (var i = 0; i < MaxSize; i++)
+            for (var i = 0; i < Constants.MaxSize; i++)
             {
-                for (var j = 0; j < MaxSize; j++)
+                for (var j = 0; j < Constants.MaxSize; j++)
                 {
                     newShape[j, i] = _shape[i, j];
                 }
@@ -71,8 +69,8 @@ public class Shape : IShape, IEquatable<Shape>
 
         // assuming that shapes are always 4x4
 
-        for (var i = 0; i < MaxSize; i++)
-        for (var j = 0; j < MaxSize; j++)
+        for (var i = 0; i < Constants.MaxSize; i++)
+        for (var j = 0; j < Constants.MaxSize; j++)
         {
             if (_shape[i, j] != other._shape[i, j])
                 return false;

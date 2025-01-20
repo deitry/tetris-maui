@@ -9,7 +9,7 @@ public class ShapeTests
     {
         var line = Shapes.Line;
 
-        Assert.That(line.ToString()!.TrimEnd(['\r', '\n', ' ']), Is.EqualTo("****"));
+        Assert.That(line.ToString()!.TrimEnd('\r', '\n', ' '), Is.EqualTo("****"));
     }
 
     [Test]

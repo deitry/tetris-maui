@@ -138,7 +138,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
 
     public bool CanSpawn(IShape shape) => CanMerge(shape, SpawnPoint);
 
-    internal bool CanMerge(IShape shape, Position position)
+    private bool CanMerge(IShape shape, Position position)
     {
         var x0 = position.X;
         var y0 = position.Y;

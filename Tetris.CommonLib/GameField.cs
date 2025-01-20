@@ -48,7 +48,7 @@ public class GameField : IUserInterfaceHandler
 
     private bool CanMoveDown => CurrentStaticState.CanMove(CurrentShape, PositionSpan.Down);
 
-    private bool CanRotateClockwise => false; // TODO
+    private bool CanRotateClockwise => throw new NotImplementedException();
 
     public void OnMoveLeft()
     {

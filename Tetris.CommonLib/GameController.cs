@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using Tetris.CommonLib;
 
 /// <summary>
 /// Holds main game cycle and is responsible for score calculation
 /// </summary>
+[PublicAPI]
 public class GameController
 {
     private static readonly IReadOnlyList<IShape> AvailableShapes = Shapes.Tetraminoes;

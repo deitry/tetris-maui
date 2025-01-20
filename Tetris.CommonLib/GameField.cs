@@ -24,6 +24,8 @@ public class GameField : IUserInterfaceHandler
     public GameField(int width, int height)
     {
         CurrentStaticState = new RectangleGame2dState(width, height);
+        CurrentStaticState.RowsCleared += RowsCleared;
+        CurrentStaticState.StateUpdated += StateUpdated;
     }
 
     public void Spawn(IShape shape)

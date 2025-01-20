@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Tetris.CommonLib;
+﻿namespace Tetris.CommonLib;
 
 public class Shape : IShape, IEquatable<Shape>
 {

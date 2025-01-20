@@ -1,6 +1,6 @@
 ﻿namespace Tetris.CommonLib;
 
-public class Constants
+public static class Constants
 {
     public const char OccupiedCell = '*';
 }

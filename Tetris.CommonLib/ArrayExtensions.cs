@@ -41,7 +41,7 @@ public static class ArrayExtensions
         if (minCol == int.MaxValue && maxCol == int.MinValue)
             return 0;
 
-        return maxCol - minCol;
+        return maxCol - minCol + 1;
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public static class ArrayExtensions
         if (minRow == int.MaxValue && maxRow == int.MinValue)
             return 0;
 
-        return maxRow - minRow;
+        return maxRow - minRow + 1;
     }
 
     public static bool[,] To2dBoolArray(this string stringRepresentation)

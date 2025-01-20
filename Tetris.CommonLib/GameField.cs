@@ -17,7 +17,7 @@ public class GameField : IUserInterfaceHandler
     /// <remarks>
     /// Does not include currently active shape.
     /// </remarks>
-    private readonly IGame2dState CurrentStaticState;
+    public readonly IGame2dState CurrentStaticState;
 
     public PositionedShape? CurrentShape { get; private set; }
 

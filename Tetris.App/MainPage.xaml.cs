@@ -1,23 +1,18 @@
-﻿namespace TetrisApp;
+﻿using Tetris.CommonLib;
+
+namespace TetrisApp;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
-
     public MainPage()
     {
         InitializeComponent();
-    }
 
-    private void OnCounterClicked(object sender, EventArgs e)
-    {
-        count++;
+        var user = new UserMediator(this);
+        var gameController = new GameController(user);
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
+        TetrisPresenter.SetGameController(gameController);
 
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        Task.Run(gameController.GameCycle);
     }
 }

@@ -36,6 +36,11 @@ public class GameController
 
     public GameField GameField { get; } = new(width: 10, height: 20);
 
+    public GameController()
+    {
+        // dummy
+    }
+
     public GameController(IUserInterface user)
     {
         // register user action handlers

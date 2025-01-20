@@ -45,15 +45,15 @@ public class ArrayExtensionsTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(shape.Width, Is.EqualTo(1));
-            Assert.That(shape.Height, Is.EqualTo(4));
+            Assert.That(shape.Width, Is.EqualTo(4));
+            Assert.That(shape.Height, Is.EqualTo(1));
         });
     }
 
     [Test]
     public void TestDimensions_RotatedLine()
     {
-        var shape = Shapes.Line;
+        var shape = Shapes.Line.RotatedClockwise;
 
         Assert.Multiple(() =>
         {

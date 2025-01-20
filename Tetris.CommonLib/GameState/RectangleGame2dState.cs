@@ -4,7 +4,6 @@ namespace Tetris.CommonLib;
 
 public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dState>
 {
-    public const char OccupiedCell = '*';
     public const char NonOccupiedCell = '-';
 
     public event Action<bool[,]>? StateUpdated;
@@ -72,12 +71,15 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
             {
                 var shapeCell = currentShape.Shape[x, y];
 
-                Debug.Assert(!_grid[x0 + x, y0 - y], "cell is already occupied");
+                var stateX = x0 + x;
+                var stateY = y0 + y;
+
+                Debug.Assert(!_grid[stateX, stateY], "cell is already occupied");
 
                 // minus since distance is measured from top
                 if (shapeCell)
                 {
-                    _grid[x0 + x, y0 - y] = true;
+                    _grid[stateX, stateY] = true;
                 }
             }
         }
@@ -141,7 +143,7 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
             for (var y = 0; y < shape.Height; y++)
             {
                 var shapeCell = shape[x, y];
-                var stateCell = _grid[x0 + x, y0 - y];
+                var stateCell = _grid[x0 + x, y0 + y];
 
                 // minus since distance is measured from top
                 if (shapeCell && stateCell)

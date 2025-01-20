@@ -52,11 +52,11 @@ public class RectangleGame2dStateTests
         var state1 = new RectangleGame2dState(state1Schema);
         var state2 = new RectangleGame2dState(state2Schema);
 
-        var shape = new PositionedShape(Shapes.Line, new(0, 0));
+        var shape = new PositionedShape(Shapes.Line, new(X: 0, Y: 3));
 
         state1.Merge(shape);
 
-        Assert.That(state2, Is.EqualTo(state1));
+        Assert.That(state1, Is.EqualTo(state2));
     }
 
     [Test]

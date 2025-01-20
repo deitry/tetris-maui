@@ -86,14 +86,14 @@ public static class ArrayExtensions
         {
             for (var row = 0; row < height && col < lines[row].Length; row++)
             {
-                array[col, row] = lines[row][col] == '*';
+                array[col, row] = lines[row][col] == Constants.OccupiedCell;
             }
         }
 
         return array;
     }
 
-    public static string AsString(this bool[,] array, char emptyPlaceholder = ' ', char occupiedPlaceholder = '*')
+    public static string AsString(this bool[,] array, char emptyPlaceholder = ' ', char occupiedPlaceholder = Constants.OccupiedCell)
     {
         var sb = new StringBuilder();
         for (var row = 0; row < array.GetLength(1); row++)

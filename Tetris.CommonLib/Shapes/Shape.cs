@@ -10,7 +10,7 @@ public class Shape : IShape, IEquatable<Shape>
 
     private readonly bool[,] _shape;
 
-    private static readonly char[] AllowedSymbols = ['\n', ' ', '*'];
+    private static readonly char[] AllowedSymbols = ['\n', ' ', Constants.OccupiedCell];
 
     /// <remarks>
     /// Internal so no one outside cannot define their own shape
@@ -29,12 +29,12 @@ public class Shape : IShape, IEquatable<Shape>
             throw new NotSupportedException("Shape is too big for current implementation");
 
         _shape = EmptyGrid;
-        for (var i = 0; i < basis.Count; i++)
+        for (var row = 0; row < basis.Count; row++)
         {
-            var line = basis[i];
-            for (var j = 0; j < line.Length; j++)
+            var line = basis[row];
+            for (var col = 0; col < line.Length; col++)
             {
-                _shape[i, j] = line[j] == '*';
+                _shape[col, row] = line[col] == Constants.OccupiedCell;
             }
         }
     }

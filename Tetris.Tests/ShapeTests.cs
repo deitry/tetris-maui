@@ -5,6 +5,14 @@ namespace TetrisTests;
 public class ShapeTests
 {
     [Test]
+    public void TestLineAsString()
+    {
+        var line = Shapes.Line;
+
+        Assert.That(line.ToString()!.TrimEnd(['\r', '\n', ' ']), Is.EqualTo("****"));
+    }
+
+    [Test]
     public void Test001_CheckTwoLinesEqual()
     {
         var line1 = Shapes.Line;

@@ -148,6 +148,10 @@ public class RectangleGame2dState : IGame2dState, IEquatable<RectangleGame2dStat
     }
 
     public bool CanSpawn(IShape shape) => CanMerge(shape, SpawnPoint);
+    public bool[,]? AsArray()
+    {
+        return _grid.DeepClone();
+    }
 
     public bool CanMerge(IShape shape, Position position)
     {

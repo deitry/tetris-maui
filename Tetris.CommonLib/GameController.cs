@@ -50,7 +50,7 @@ public class GameController
         user.RotateClockwise += GameField.OnRotateClockwise;
 
         GameField.StateUpdated += state => GameStateUpdated?.Invoke(state);
-        GameField.CurrentShapeMoved += shape => CurrentShapeUpdated?.Invoke(shape);
+        GameField.CurrentShapeUpdated += shape => CurrentShapeUpdated?.Invoke(shape);
 
         GameField.RowsCleared += OnRowsCleared;
     }

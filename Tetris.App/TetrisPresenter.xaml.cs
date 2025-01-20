@@ -36,6 +36,8 @@ public partial class TetrisPresenter : ContentView
     {
         _gameController = controller;
 
+        CurrentState = controller.GameField.CurrentStaticState.AsArray();
+
         // create base grid
         var grid = new Grid
         {
@@ -48,7 +50,7 @@ public partial class TetrisPresenter : ContentView
 
         _cells = new CellView[width, height];
 
-            for (var row = 0; row < height; row++)
+        for (var row = 0; row < height; row++)
         {
             grid.RowDefinitions.Add(new RowDefinition(height: CellSize));
         }
@@ -66,7 +68,7 @@ public partial class TetrisPresenter : ContentView
                 var cell = new CellView();
                 _cells[col, row] = cell;
 
-                grid.Add(cell, row, col);
+                grid.Add(cell, col, row);
             }
         }
 

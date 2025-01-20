@@ -28,4 +28,6 @@ public interface IGame2dState
     Position SpawnPoint { get; }
 
     bool CanSpawn(IShape block);
+
+    bool[,]? AsArray();
 }

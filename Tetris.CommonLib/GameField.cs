@@ -9,7 +9,7 @@ public class GameField : IUserInterfaceHandler
 
     public event Action<bool[,]>? StateUpdated;
 
-    public event Action<PositionedShape>? CurrentShapeMoved;
+    public event Action<PositionedShape?>? CurrentShapeUpdated;
 
     /// <summary>
     /// All accumulated blocks.
@@ -19,7 +19,18 @@ public class GameField : IUserInterfaceHandler
     /// </remarks>
     public readonly IGame2dState CurrentStaticState;
 
-    public PositionedShape? CurrentShape { get; private set; }
+    private PositionedShape? _currentShape;
+
+    public PositionedShape? CurrentShape
+    {
+        get => _currentShape;
+        private set
+        {
+            _currentShape = value;
+
+            CurrentShapeUpdated?.Invoke(value);
+        }
+    }
 
     public GameField(int width, int height)
     {
@@ -34,7 +45,7 @@ public class GameField : IUserInterfaceHandler
             throw new Exception("Shape is already spawned");
 
         CurrentShape = new (shape, Position: CurrentStaticState.SpawnPoint);
-        CurrentShape.Updated += s => CurrentShapeMoved?.Invoke(s);
+        CurrentShape.Updated += s => CurrentShapeUpdated?.Invoke(s);
     }
 
     public bool CanSpawn(IShape block)
@@ -56,7 +67,7 @@ public class GameField : IUserInterfaceHandler
         {
             CurrentShape.Position += PositionSpan.Left;
 
-            CurrentShapeMoved?.Invoke(CurrentShape);
+            CurrentShapeUpdated?.Invoke(CurrentShape);
         }
     }
 
@@ -66,7 +77,7 @@ public class GameField : IUserInterfaceHandler
         {
             CurrentShape.Position += PositionSpan.Right;
 
-            CurrentShapeMoved?.Invoke(CurrentShape);
+            CurrentShapeUpdated?.Invoke(CurrentShape);
         }
     }
 
@@ -76,7 +87,7 @@ public class GameField : IUserInterfaceHandler
         {
             CurrentShape.Position += PositionSpan.Down;
 
-            CurrentShapeMoved?.Invoke(CurrentShape);
+            CurrentShapeUpdated?.Invoke(CurrentShape);
         }
     }
 
@@ -86,7 +97,7 @@ public class GameField : IUserInterfaceHandler
         {
             CurrentShape.RotateClockwise();
 
-            CurrentShapeMoved?.Invoke(CurrentShape);
+            CurrentShapeUpdated?.Invoke(CurrentShape);
         }
     }
 
@@ -105,9 +116,9 @@ public class GameField : IUserInterfaceHandler
             }
             else
             {
-                CurrentStaticState.Merge(CurrentShape);
-                CurrentShape.Updated -= CurrentShapeMoved;
+                CurrentShape.Updated -= CurrentShapeUpdated;
                 CurrentShape = null;
+                CurrentStaticState.Merge(CurrentShape);
             }
         }
 

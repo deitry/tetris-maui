@@ -12,6 +12,14 @@ public partial class App : Application
         }, null);
     }
 
+    internal static void RunInUiContext<T>(T input, Action<T> action)
+    {
+        App.UiContext.Post(obj =>
+        {
+            action((T)obj!);
+        }, input);
+    }
+
     public App()
     {
         InitializeComponent();

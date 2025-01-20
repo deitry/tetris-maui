@@ -27,9 +27,9 @@ public partial class CellView : ContentView
             _state = value;
             OnPropertyChanged();
 
-            App.RunInUiContext(() =>
+            App.RunInUiContext(_state, state =>
             {
-                BackgroundColor = _state switch
+                BackgroundColor = state switch
                 {
                     CellState.Moving => Colors.Red,
                     CellState.Static => Colors.Gold,

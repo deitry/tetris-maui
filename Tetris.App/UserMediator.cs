@@ -27,16 +27,16 @@ public class UserMediator : IUserInterface
     {
         switch (e.Data.KeyCode)
         {
-            case KeyCode.VcLeft:
+            case KeyCode.VcLeft or KeyCode.VcA:
                 MoveLeft?.Invoke();
                 break;
-            case KeyCode.VcRight:
+            case KeyCode.VcRight or KeyCode.VcD:
                 MoveRight?.Invoke();
                 break;
-            case KeyCode.VcDown:
+            case KeyCode.VcDown or KeyCode.VcS:
                 MoveDown?.Invoke();
                 break;
-            case KeyCode.VcUp:
+            case KeyCode.VcUp or KeyCode.VcSpace:
                 RotateClockwise?.Invoke();
                 break;
         }

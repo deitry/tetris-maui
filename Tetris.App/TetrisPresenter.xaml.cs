@@ -65,8 +65,10 @@ public partial class TetrisPresenter : ContentView
         {
             for (var col = 0; col < width; col++)
             {
-                var cell = new CellView();
-                _cells[col, row] = cell;
+                var cell = _cells[col, row] = new CellView()
+                {
+                    State = CellState.Static,
+                };
 
                 grid.Add(cell, col, row);
             }
@@ -97,15 +99,29 @@ public partial class TetrisPresenter : ContentView
         {
             for (var col = 0; col < CurrentState.GetLength(0); col++)
             {
-                _cells[col, row].State = CurrentState[col, row] ? CellState.Static : CellState.Empty;
+                var state = CellState.Empty;
+                state = CurrentState[col, row] ? CellState.Static : CellState.Empty;
 
                 if (CurrentShape != null)
                 {
-                    if (CurrentShape.Position.X + col >= 0 && CurrentShape.Position.X + col < CurrentState.GetLength(0) &&
-                        CurrentShape.Position.Y + row >= 0 && CurrentShape.Position.Y + row < CurrentState.GetLength(1))
+                    var x0 = CurrentShape.Position.X;
+                    var y0 = CurrentShape.Position.Y;
+
+                    if (col >= x0 && col < x0 + CurrentShape.Shape.Width)
                     {
-                        _cells[CurrentShape.Position.X + col, CurrentShape.Position.Y + row].State = CellState.Moving;
+                        if (row >= y0 && row < y0 + CurrentShape.Shape.Height)
+                        {
+                            var shapeCol = col - x0;
+                            var shapeRow = row - y0;
+
+                            if (CurrentShape.Shape[shapeCol, shapeRow])
+                            {
+                                state = CellState.Moving;
+                            }
+                        }
                     }
+
+                    _cells[col, row].State = state;
                 }
             }
         }

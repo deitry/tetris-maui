@@ -15,28 +15,12 @@ public enum CellState
 
 public partial class CellView : ContentView
 {
-    private CellState _state;
+    public static readonly BindableProperty StateProperty = BindableProperty.Create(nameof(State), typeof(CellState), typeof(CellView), default(CellState));
 
     public CellState State
     {
-        get => _state;
-        set
-        {
-            if (value == _state) return;
-
-            _state = value;
-            OnPropertyChanged();
-
-            App.RunInUiContext(_state, state =>
-            {
-                BackgroundColor = state switch
-                {
-                    CellState.Moving => Colors.Red,
-                    CellState.Static => Colors.Gold,
-                    _ => Colors.White,
-                };
-            });
-        }
+        get => (CellState)GetValue(StateProperty);
+        set => SetValue(StateProperty, value);
     }
 
     public CellView()

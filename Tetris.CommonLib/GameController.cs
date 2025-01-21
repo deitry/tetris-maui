@@ -17,9 +17,18 @@ public class GameController
 
     public event Action? GameOver;
 
-    public long Score { get; private set; }
+    public long Score
+    {
+        get => _score;
+        private set
+        {
+            _score = value;
+            ScoreChanged?.Invoke(value);
+        }
+    }
 
     private int _nextBlockIndex = Random.Shared.Next(0, AvailableShapes.Count);
+    private long _score;
 
     public IShape NextBlock => AvailableShapes[_nextBlockIndex];
 
@@ -71,8 +80,6 @@ public class GameController
             Score += reward;
             TickPeriod *= SpeedMultiplier;
         }
-
-        ScoreChanged?.Invoke(Score);
     }
 
     public async Task GameCycle()
@@ -100,6 +107,7 @@ public class GameController
 
     public Task Restart()
     {
+        Score = 0;
         GameField.Clear();
 
         return GameCycle();

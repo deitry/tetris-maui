@@ -33,10 +33,10 @@ public class UserMediator : IUserInterface
             case KeyCode.VcRight or KeyCode.VcD:
                 MoveRight?.Invoke();
                 break;
-            case KeyCode.VcDown or KeyCode.VcS:
+            case KeyCode.VcDown or KeyCode.VcS or KeyCode.VcSpace:
                 MoveDown?.Invoke();
                 break;
-            case KeyCode.VcUp or KeyCode.VcSpace:
+            case KeyCode.VcUp or KeyCode.VcW:
                 RotateClockwise?.Invoke();
                 break;
         }

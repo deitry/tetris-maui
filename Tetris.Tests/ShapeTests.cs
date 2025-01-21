@@ -68,27 +68,96 @@ public class ShapeTests
         Assert.Multiple(() =>
         {
             Assert.That(rotated90, Is.EqualTo(new Shape("""
-                                                    ---*
-                                                    --**
-                                                    ---*
+                                                    -*--
+                                                    **--
+                                                    -*--
                                                     ----
                                                     """)));
 
             Assert.That(rotated180, Is.EqualTo(new Shape("""
+                                                    -*--
+                                                    ***-
                                                     ----
                                                     ----
-                                                    --*-
-                                                    -***
                                                     """)));
 
             Assert.That(rotated270, Is.EqualTo(new Shape("""
-                                                    ----
                                                     *---
                                                     **--
                                                     *---
+                                                    ----
                                                     """)));
 
             Assert.That(rotated360, Is.EqualTo(t));
+        });
+    }
+
+    [Test]
+    public void RotateSShape()
+    {
+        var shape = Shapes.S;
+        var rotated90 = shape.RotatedClockwise;
+        var rotated180 = rotated90.RotatedClockwise;
+        var rotated270 = rotated180.RotatedClockwise;
+        var rotated360 = rotated270.RotatedClockwise;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(rotated90, Is.EqualTo(new Shape("""
+                                                    *---
+                                                    **--
+                                                    -*--
+                                                    ----
+                                                    """)));
+
+            Assert.That(rotated180, Is.EqualTo(shape));
+
+            Assert.That(rotated270, Is.EqualTo(new Shape("""
+                                                    *---
+                                                    **--
+                                                    -*--
+                                                    ----
+                                                    """)));
+
+            Assert.That(rotated270, Is.EqualTo(rotated90));
+
+            Assert.That(rotated360, Is.EqualTo(shape));
+        });
+    }
+
+    [Test]
+    public void RotatedLShape()
+    {
+        var shape = Shapes.L;
+        var rotated90 = shape.RotatedClockwise;
+        var rotated180 = rotated90.RotatedClockwise;
+        var rotated270 = rotated180.RotatedClockwise;
+        var rotated360 = rotated270.RotatedClockwise;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(rotated90, Is.EqualTo(new Shape("""
+                                                        **--
+                                                        -*--
+                                                        -*--
+                                                        ----
+                                                        """)));
+
+            Assert.That(rotated180, Is.EqualTo(new Shape("""
+                                                         --*-
+                                                         ***-
+                                                         ----
+                                                         ----
+                                                         """)));
+
+            Assert.That(rotated270, Is.EqualTo(new Shape("""
+                                                         *---
+                                                         *---
+                                                         **--
+                                                         ----
+                                                         """)));
+
+            Assert.That(rotated360, Is.EqualTo(shape));
         });
     }
 }

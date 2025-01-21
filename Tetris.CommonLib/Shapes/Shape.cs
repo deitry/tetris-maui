@@ -43,11 +43,15 @@ public class Shape : IShape, IEquatable<Shape>
         get
         {
             var newShape = EmptyGrid;
-            for (var row = 0; row < Constants.MaxSize; row++)
+            var height = Height;
+            var width = Width;
+
+            for (var row = 0; row < Height; row++)
             {
-                for (var col = 0; col < Constants.MaxSize; col++)
+                for (var col = 0; col < Width; col++)
                 {
-                    newShape[Constants.MaxSize - row - 1, col] = _shape[col, row];
+                    var newX = Height - row - 1;
+                    newShape[newX, col] = _shape[col, row];
                 }
             }
 

@@ -1,36 +1,42 @@
 ﻿using Windows.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using SharpHook;
+using SharpHook.Native;
 using TetrisApp;
 
 namespace Tetris.CommonLib;
 
 public class UserMediator : IUserInterface
 {
-    public UserMediator(MainPage mainPage)
+    public UserMediator()
     {
-        var handler = mainPage.Handler;
-        UIElement? nativeView = handler?.PlatformView as UIElement;
-        if (nativeView != null)
-        {
-            nativeView.KeyDown += NativeViewOnKeyDown;
-        }
+        var hook = new TaskPoolGlobalHook();
+        hook.KeyPressed += HookOnKeyPressed;
+
+        Task.Run(hook.Run);
+        // var handler = element.Handler;
+        // UIElement? nativeView = handler?.PlatformView as UIElement;
+        // if (nativeView != null)
+        // {
+        //     nativeView.KeyDown += NativeViewOnKeyDown;
+        // }
     }
 
-    private void NativeViewOnKeyDown(object sender, KeyRoutedEventArgs e)
+    private void HookOnKeyPressed(object? sender, KeyboardHookEventArgs e)
     {
-        switch (e.Key)
+        switch (e.Data.KeyCode)
         {
-            case VirtualKey.Left:
+            case KeyCode.VcLeft:
                 MoveLeft?.Invoke();
                 break;
-            case VirtualKey.Right:
+            case KeyCode.VcRight:
                 MoveRight?.Invoke();
                 break;
-            case VirtualKey.Down:
+            case KeyCode.VcDown:
                 MoveDown?.Invoke();
                 break;
-            case VirtualKey.Up:
+            case KeyCode.VcUp:
                 RotateClockwise?.Invoke();
                 break;
         }

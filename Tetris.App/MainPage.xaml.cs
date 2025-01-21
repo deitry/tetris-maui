@@ -8,7 +8,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
 
-        var user = new UserMediator(this);
+        var user = new UserMediator();
         var gameController = new GameController(user);
 
         TetrisPresenter.SetGameController(gameController);

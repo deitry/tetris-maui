@@ -27,7 +27,7 @@ public class GameController
     /// The time between each movement of block.
     /// Should increase over time.
     /// </summary>
-    public TimeSpan TickPeriod { get; private set; } = TimeSpan.FromSeconds(2);
+    public TimeSpan TickPeriod { get; private set; } = TimeSpan.FromSeconds(0.3);
 
     /// <summary>
     /// Each successfull row will

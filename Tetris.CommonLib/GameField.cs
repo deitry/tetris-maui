@@ -11,6 +11,8 @@ public class GameField : IUserInterfaceHandler
 
     public event Action<PositionedShape?>? CurrentShapeUpdated;
 
+    public readonly object _locker = new();
+
     /// <summary>
     /// All accumulated blocks.
     /// </summary>
@@ -27,7 +29,6 @@ public class GameField : IUserInterfaceHandler
         private set
         {
             _currentShape = value;
-
             CurrentShapeUpdated?.Invoke(value);
         }
     }
@@ -41,16 +42,25 @@ public class GameField : IUserInterfaceHandler
 
     public void Spawn(IShape shape)
     {
-        if (CurrentShape != null)
-            throw new Exception("Shape is already spawned");
+        lock (_locker)
+        {
+            if (!CanSpawn(shape))
+                throw new GameOverException();
 
-        CurrentShape = new (shape, Position: CurrentStaticState.SpawnPoint);
-        CurrentShape.Updated += s => CurrentShapeUpdated?.Invoke(s);
+            if (CurrentShape != null)
+                throw new Exception("Shape is already spawned");
+
+            CurrentShape = new (shape, Position: CurrentStaticState.SpawnPoint);
+            CurrentShape.Updated += s => CurrentShapeUpdated?.Invoke(s);
+        }
     }
 
     public bool CanSpawn(IShape block)
     {
-        return CurrentStaticState.CanSpawn(block);
+        lock (_locker)
+        {
+            return CurrentStaticState.CanSpawn(block);
+        }
     }
 
     private bool CanMoveLeft => CurrentStaticState.CanMove(CurrentShape, PositionSpan.Left);
@@ -63,66 +73,93 @@ public class GameField : IUserInterfaceHandler
 
     public void OnMoveLeft()
     {
-        if (CurrentShape != null && CanMoveLeft)
+        lock (_locker)
         {
-            CurrentShape.Position += PositionSpan.Left;
+            if (CurrentShape != null && CanMoveLeft)
+            {
+                CurrentShape.Position += PositionSpan.Left;
 
-            CurrentShapeUpdated?.Invoke(CurrentShape);
+                CurrentShapeUpdated?.Invoke(CurrentShape);
+            }
         }
     }
 
     public void OnMoveRight()
     {
-        if (CurrentShape != null && CanMoveRight)
+        lock (_locker)
         {
-            CurrentShape.Position += PositionSpan.Right;
+            if (CurrentShape != null && CanMoveRight)
+            {
+                CurrentShape.Position += PositionSpan.Right;
 
-            CurrentShapeUpdated?.Invoke(CurrentShape);
+                CurrentShapeUpdated?.Invoke(CurrentShape);
+            }
         }
     }
 
     public void OnMoveDown()
     {
-        if (CurrentShape != null && CanMoveDown)
+        lock (_locker)
         {
-            CurrentShape.Position += PositionSpan.Down;
+            if (CurrentShape != null && CanMoveDown)
+            {
+                CurrentShape.Position += PositionSpan.Down;
 
-            CurrentShapeUpdated?.Invoke(CurrentShape);
+                CurrentShapeUpdated?.Invoke(CurrentShape);
+            }
         }
     }
 
     public void OnRotateClockwise()
     {
-        if (CurrentShape != null && CanRotateClockwise)
+        lock (_locker)
         {
-            CurrentShape.RotateClockwise();
+            if (CurrentShape != null && CanRotateClockwise)
+            {
+                CurrentShape.RotateClockwise();
 
-            CurrentShapeUpdated?.Invoke(CurrentShape);
+                CurrentShapeUpdated?.Invoke(CurrentShape);
+            }
         }
     }
 
     public bool CheckIfMovementIsFinished()
     {
-        return !CanMoveLeft && !CanMoveRight && !CanMoveDown && !CanRotateClockwise;
+        lock (_locker)
+        {
+            return !CanMoveLeft && !CanMoveRight && !CanMoveDown && !CanRotateClockwise;
+        }
     }
 
     public void StateBasedActions()
     {
-        if (CurrentShape != null)
+        lock (_locker)
         {
-            if (CanMoveDown)
+            if (CurrentShape != null)
             {
-                OnMoveDown();
+                if (CanMoveDown)
+                {
+                    OnMoveDown();
+                }
+                else
+                {
+                    var shape = CurrentShape;
+                    CurrentShape.Updated -= CurrentShapeUpdated;
+                    CurrentShape = null;
+                    CurrentStaticState.Merge(shape);
+                }
             }
-            else
-            {
-                var shape = CurrentShape;
-                CurrentShape.Updated -= CurrentShapeUpdated;
-                CurrentShape = null;
-                CurrentStaticState.Merge(shape);
-            }
-        }
 
-        CurrentStaticState.ClearCompleteRows();
+            CurrentStaticState.ClearCompleteRows();
+        }
+    }
+
+    public void Clear()
+    {
+        lock (_locker)
+        {
+            CurrentShape = null;
+            CurrentStaticState.Clear();
+        }
     }
 }

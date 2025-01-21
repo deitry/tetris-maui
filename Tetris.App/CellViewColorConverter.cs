@@ -11,7 +11,7 @@ public class CellViewColorConverter : IValueConverter
             return state switch
             {
                 CellState.Moving => Colors.Red,
-                CellState.Static => Colors.Gold,
+                CellState.Static => Colors.DarkRed,
                 _ => Colors.White,
             };
         }

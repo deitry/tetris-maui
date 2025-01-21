@@ -30,4 +30,6 @@ public interface IGame2dState
     bool CanSpawn(IShape block);
 
     bool[,]? AsArray();
+
+    void Clear();
 }

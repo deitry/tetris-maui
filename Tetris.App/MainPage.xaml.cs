@@ -4,15 +4,20 @@ namespace TetrisApp;
 
 public partial class MainPage : ContentPage
 {
+    private readonly MainPageViewModel ViewModel;
+
     public MainPage()
     {
+        ViewModel = new MainPageViewModel();
+        BindingContext = ViewModel;
+
         InitializeComponent();
 
-        var user = new UserMediator();
-        var gameController = new GameController(user);
+        TetrisPresenter.SetGameController(ViewModel.GameController);
+    }
 
-        TetrisPresenter.SetGameController(gameController);
-
-        Task.Run(gameController.GameCycle);
+    private void StartButton_OnClicked(object? sender, EventArgs e)
+    {
+        Task.Run(ViewModel.Start);
     }
 }

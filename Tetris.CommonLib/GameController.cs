@@ -77,24 +77,31 @@ public class GameController
 
     public async Task GameCycle()
     {
-        while (true)
+        try
         {
-            _nextBlockIndex = Random.Shared.Next(0, AvailableShapes.Count);
-
-            if (GameField.CurrentShape == null)
+            while (true)
             {
-                if (!GameField.CanSpawn(NextBlock))
+                if (GameField.CurrentShape == null)
                 {
-                    GameOver?.Invoke();
-                    return;
+                    _nextBlockIndex = Random.Shared.Next(0, AvailableShapes.Count);
+                    GameField.Spawn(NextBlock);
                 }
 
-                GameField.Spawn(NextBlock);
+                await Task.Delay(TickPeriod);
+
+                GameField.StateBasedActions();
             }
-
-            await Task.Delay(TickPeriod);
-
-            GameField.StateBasedActions();
         }
+        catch (GameOverException)
+        {
+            GameOver?.Invoke();
+        }
+    }
+
+    public Task Restart()
+    {
+        GameField.Clear();
+
+        return GameCycle();
     }
 }

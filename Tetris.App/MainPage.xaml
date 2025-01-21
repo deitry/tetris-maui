@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:tetrisApp="using:TetrisApp"
              x:Class="TetrisApp.MainPage"
+             x:DataType="tetrisApp:MainPageViewModel"
              >
 
     <ScrollView>
@@ -10,7 +11,30 @@
             Padding="30,0"
             Spacing="25">
 
-            <tetrisApp:TetrisPresenter x:Name="TetrisPresenter"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Score:"/>
+                <Label Text="{Binding Score}"/>
+            </StackLayout>
+
+            <Grid>
+                <tetrisApp:TetrisPresenter x:Name="TetrisPresenter"/>
+
+                <Border BackgroundColor="Bisque"
+                        IsVisible="{Binding IsGameOver}"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill">
+
+                    <Label Text="GAME OVER"
+                           TextColor="Brown"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+
+            <Button Text="Start"
+                    Clicked="StartButton_OnClicked"
+                    IsVisible="{Binding IsGameOver}"/>
 
         </VerticalStackLayout>
     </ScrollView>

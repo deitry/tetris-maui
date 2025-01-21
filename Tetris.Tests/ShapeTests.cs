@@ -13,7 +13,7 @@ public class ShapeTests
     }
 
     [Test]
-    public void Test001_CheckTwoLinesEqual()
+    public void CheckTwoLinesEqual()
     {
         var line1 = Shapes.Line;
         var line2 = Shapes.Line;
@@ -22,7 +22,7 @@ public class ShapeTests
     }
 
     [Test]
-    public void Test002_CheckTwoShapesNotEqual()
+    public void CheckTwoShapesNotEqual()
     {
         var line1 = Shapes.Line;
         var line2 = Shapes.Square;
@@ -31,7 +31,7 @@ public class ShapeTests
     }
 
     [Test]
-    public void Test003_RotateLine()
+    public void RotateLine()
     {
         var line = Shapes.Line;
         var rotatedLine = new Shape("""
@@ -45,7 +45,7 @@ public class ShapeTests
     }
 
     [Test]
-    public void Test004_RotateLine360()
+    public void RotateLine360()
     {
         var line = Shapes.Line;
         var rotated90 = line.RotatedClockwise;

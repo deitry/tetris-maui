@@ -116,9 +116,10 @@ public class GameField : IUserInterfaceHandler
             }
             else
             {
+                var shape = CurrentShape;
                 CurrentShape.Updated -= CurrentShapeUpdated;
                 CurrentShape = null;
-                CurrentStaticState.Merge(CurrentShape);
+                CurrentStaticState.Merge(shape);
             }
         }
 

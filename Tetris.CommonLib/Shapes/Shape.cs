@@ -6,17 +6,12 @@ public class Shape : IShape, IEquatable<Shape>
 
     private readonly bool[,] _shape;
 
-    private static readonly char[] AllowedSymbols = ['\n', ' ', Constants.OccupiedCell];
-
     /// <remarks>
     /// Internal so no one outside cannot define their own shape
     /// </remarks>
     internal Shape(string shapeString)
     {
         var normalized = shapeString.ReplaceLineEndings("\n");
-
-        if (normalized.Any(c => ! AllowedSymbols.Contains(c)))
-            throw new ArgumentException("Invalid symbols in shape description");
 
         var basis = normalized.Split("\n").ToList();
         var maxLength = basis.Max(s => s.Length);
@@ -48,11 +43,11 @@ public class Shape : IShape, IEquatable<Shape>
         get
         {
             var newShape = EmptyGrid;
-            for (var i = 0; i < Constants.MaxSize; i++)
+            for (var row = 0; row < Constants.MaxSize; row++)
             {
-                for (var j = 0; j < Constants.MaxSize; j++)
+                for (var col = 0; col < Constants.MaxSize; col++)
                 {
-                    newShape[j, i] = _shape[i, j];
+                    newShape[Constants.MaxSize - row - 1, col] = _shape[col, row];
                 }
             }
 
@@ -89,7 +84,7 @@ public class Shape : IShape, IEquatable<Shape>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_shape, AllowedSymbols);
+        return HashCode.Combine(_shape);
     }
 
     public override string ToString()
